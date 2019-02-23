@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+var React = require('react');
+
 app.get('/', (req, res) => {
   res.send('Hello from App Engine!');
 });
