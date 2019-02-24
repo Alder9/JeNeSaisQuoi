@@ -14,6 +14,7 @@ function dropdown() {
 
 function drawChart(data) {
   d3.select("svg").selectAll("*").remove();
+  d3.select("#legend").selectAll("*").remove();
 
   var svg_width = 600, svg_height = 400;
   var margin = {top: 20, right: 20, bottom: 30, left: 50};
@@ -66,6 +67,7 @@ function drawChart(data) {
     .attr("stroke-linejoin", "round")
     .attr("stroke-linecap", "round")
     .attr("stroke-width", 1.5)
+    .attr("data-legend", function(d) {return "Average stockX price"})
     .attr("d", line);
 
   g.append("path")
@@ -75,7 +77,41 @@ function drawChart(data) {
     .attr("stroke-linejoin", "round")
     .attr("stroke-linecap", "round")
     .attr("stroke-width", 1.5)
+    .attr("data-legend", function(d) {return "Retail price"})
     .attr("d", line2);
+
+  var legendRectSize = 18;
+  var legendSpacing = 4;
+  var legend = d3.select("#legend").append("svg");
+  legend
+    .append("rect")
+    .attr("x", 5)
+    .attr("y", legendRectSize)
+    .attr("width", legendRectSize)
+    .attr("height", legendRectSize)
+    .style("fill", "lightgreen")
+    .style("stroke", "lightgreen");
+  legend
+    .append("text")
+    .attr("fill", "white")
+    .attr("x", legendRectSize + legendSpacing + 5)
+    .attr("y", legendRectSize + 15)
+    .text("Average stockX sold price");
+
+  legend
+    .append("rect")
+    .attr("x", 5)
+    .attr("y", 2 * legendRectSize + 10)
+    .attr("width", legendRectSize)
+    .attr("height", legendRectSize)
+    .style("fill", "red")
+    .style("stroke", "red");
+  legend
+    .append("text")
+    .attr("fill", "white")
+    .attr("x", legendRectSize + legendSpacing + 5)
+    .attr("y", 2 * legendRectSize + 25)
+    .text("Retail price");
 }
 
 function createLineGraph(elmnt) {
