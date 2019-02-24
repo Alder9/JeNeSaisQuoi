@@ -106,14 +106,27 @@ function add_information(i) {
   best_seller_title.innerText = "Best Selling Sneakers: ";
   let best_seller_text = document.createElement("span");
   best_seller_text.innerText = `${best_selling_sneaker["name"]}`;
-  let best_seller_img = document.createElement("span");
-  best_seller_img.innerText = "<image goes here>";
+  let img_container = document.createElement("div");
+  img_container.className = "shoe-image";
+  let best_seller_img = document.createElement("img");
 
   best_seller.appendChild(best_seller_title);
   best_seller.appendChild(best_seller_text);
-  best_seller.appendChild(best_seller_img);
+  best_seller.appendChild(img_container);
   state_info.appendChild(best_seller);
 
+  let res = fetch(
+    `http://localhost:8080/search-image?name=${best_selling_sneaker["name"]}`
+  )
+    .then(res => {
+      return res.json();
+    })
+    .then(res => {
+      console.log(res);
+      best_seller_img.src = res["value"][0]["url"];
+
+      img_container.appendChild(best_seller_img);
+    });
   // Adding the retail price and the average price
   let state_pricing = document.createElement("div");
   state_pricing.id = "state-pricing";
@@ -159,6 +172,9 @@ function classify_data() {
   });
 
   for (let order of test) {
+    while (order["Sneaker Name"].indexOf("-") != -1) {
+      order["Sneaker Name"] = order["Sneaker Name"].replace("-", " ");
+    }
     var date = order["Order Date"];
     var tmp = date.split("/");
     let cur_month = parseInt(tmp[0]);

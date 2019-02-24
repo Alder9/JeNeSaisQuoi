@@ -1,4 +1,6 @@
+const rapid_key = "key";
 const express = require("express");
+const unirest = require("unirest");
 const app = express();
 
 const react = require("react");
@@ -11,6 +13,10 @@ app.set("view engine", "html");
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
+});
+
+app.get("/keys.js", (req, res) => {
+  res.sendFile(__dirname + "/keys.js");
 });
 
 app.get("/us.json", (req, res) => {
@@ -34,6 +40,19 @@ app.get("/data-all", (req, res) => {
 });
 
 app.get("/data-twitter", (req, res) => {});
+
+app.get("/search-image", (req, res) => {
+  unirest
+    .get(
+      `https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI?autoCorrect=true&pageNumber=1&pageSize=1&q=${
+        req.query.name
+      }&safeSearch=false`
+    )
+    .header("X-RapidAPI-Key", rapid_key)
+    .end(function(result) {
+      res.send(result.body);
+    });
+});
 
 // Listen to the App Engine-specified port, or 8080 otherwise
 const PORT = process.env.PORT || 8080;
