@@ -208,7 +208,7 @@ function clear_information() {
   state_info.style.width = "0px";
 }
 
-function classify_data() {
+function classify_data(_callback) {
   // Get data from Google Cloud
 
   // Iterate through data
@@ -224,134 +224,157 @@ function classify_data() {
     cur_sneakers[ele] = {};
   });
 
-  for (let order of test) {
-    while (order["Sneaker Name"].indexOf("-") != -1) {
-      order["Sneaker Name"] = order["Sneaker Name"].replace("-", " ");
-    }
-    var date = order["Order Date"];
-    var tmp = date.split("/");
-    let cur_month = parseInt(tmp[0]);
-    let cur_year = parseInt(tmp[2]);
-    let cur_state = order["Buyer Region"];
-    if (cur_month !== prev_month || cur_year !== prev_year) {
-      states.forEach(state => {
-        let brand = "";
-        if (cur_yeezy_count[state] === cur_white_count[state]) {
-          brand = "neutral";
-        } else if (cur_yeezy_count[state] > cur_white_count[state]) {
-          brand = "yeezy";
-        } else {
-          brand = "off white";
+  // for (let order of test) {
+  let url = "http://localhost:8080/json-all";
+  fetch(url)
+    .then(res => {
+      if (res == undefined) {
+        return {};
+      }
+      if (res.status == 200) {
+        return res.json();
+      } else {
+        console.log("pooh", res.code);
+        return {};
+      }
+    })
+    .then(orders => {
+      //console.log(orders);
+      orders.forEach(function(order) {
+        while (order["Sneaker Name"].indexOf("-") != -1) {
+          order["Sneaker Name"] = order["Sneaker Name"].replace("-", " ");
         }
+        var date = order["Order Date"];
+        var tmp = date.split("/");
+        let cur_month = parseInt(tmp[0]);
+        let cur_year = parseInt(tmp[2]);
+        let cur_state = order["Buyer Region"];
+        if (cur_month !== prev_month || cur_year !== prev_year) {
+          states.forEach(state => {
+            let brand = "";
+            if (cur_yeezy_count[state] === cur_white_count[state]) {
+              brand = "neutral";
+            } else if (cur_yeezy_count[state] > cur_white_count[state]) {
+              brand = "yeezy";
+            } else {
+              brand = "off white";
+            }
 
-        let sneaker = {};
-        let max = 0;
-        for (let key in cur_sneakers[state]) {
-          if (cur_sneakers[state][key]["count"] > max) {
-            max = cur_sneakers[state][key];
-            sneaker = {
-              name: key,
-              average_retail:
-                cur_sneakers[state][key]["retail_total"] /
-                cur_sneakers[state][key]["count"],
-              average_sale_price:
-                cur_sneakers[state][key]["sale_total"] /
-                cur_sneakers[state][key]["count"]
+            let sneaker = {};
+            let max = 0;
+            for (let key in cur_sneakers[state]) {
+              if (cur_sneakers[state][key]["count"] > max) {
+                max = cur_sneakers[state][key];
+                sneaker = {
+                  name: key,
+                  average_retail:
+                    cur_sneakers[state][key]["retail_total"] /
+                    cur_sneakers[state][key]["count"],
+                  average_sale_price:
+                    cur_sneakers[state][key]["sale_total"] /
+                    cur_sneakers[state][key]["count"]
+                };
+              }
+            }
+            classified_data[`${prev_month}-${prev_year}-${state}`] = {
+              yeezy_count: cur_yeezy_count[state],
+              white_count: cur_white_count[state],
+              brand: brand,
+              most_popular_sneaker:
+                brand !== "neutral"
+                  ? sneaker
+                  : { name: "", average_retail: 0.0, average_sale_price: 0.0 }
             };
+            classified_data[`${prev_month}-${prev_year}-${state}`];
+          });
+
+          prev_month = cur_month;
+          prev_year = cur_year;
+          states.forEach(ele => {
+            cur_yeezy_count[ele] = 0;
+            cur_white_count[ele] = 0;
+            cur_sneakers[ele] = {};
+          });
+        }
+        // Month, year, state exists
+        else {
+          // Check the brand and increment
+          let cur_state = order["Buyer Region"];
+          if (order["Brand"] == "Yeezy") {
+            cur_yeezy_count[cur_state]++;
+          } else {
+            cur_white_count[cur_state]++;
+          }
+
+          // Check the sneaker name
+          if (order["Sneaker Name"] in cur_sneakers[cur_state]) {
+            cur_sneakers[cur_state][order["Sneaker Name"]]["count"]++;
+            cur_sneakers[cur_state][order["Sneaker Name"]][
+              "retail_total"
+            ] += parseInt(
+              order["Retail Price"].slice(1, order["Retail Price"].length)
+            );
+            cur_sneakers[cur_state][order["Sneaker Name"]][
+              "sale_total"
+            ] += parseInt(
+              order["Sale Price"].slice(1, order["Sale Price"].length)
+            );
+          } else {
+            cur_sneakers[cur_state][order["Sneaker Name"]] = {};
+            cur_sneakers[cur_state][order["Sneaker Name"]]["count"] = 1;
+            cur_sneakers[cur_state][order["Sneaker Name"]][
+              "retail_total"
+            ] = parseInt(
+              order["Retail Price"].slice(1, order["Retail Price"].length)
+            );
+            cur_sneakers[cur_state][order["Sneaker Name"]][
+              "sale_total"
+            ] = parseInt(
+              order["Sale Price"].slice(1, order["Sale Price"].length)
+            );
           }
         }
-        classified_data[`${prev_month}-${prev_year}-${state}`] = {
-          yeezy_count: cur_yeezy_count[state],
-          white_count: cur_white_count[state],
-          brand: brand,
-          most_popular_sneaker:
-            brand !== "neutral"
-              ? sneaker
-              : { name: "", average_retail: 0.0, average_sale_price: 0.0 }
-        };
-        classified_data[`${prev_month}-${prev_year}-${state}`];
-      });
 
-      prev_month = cur_month;
-      prev_year = cur_year;
-      states.forEach(ele => {
-        cur_yeezy_count[ele] = 0;
-        cur_white_count[ele] = 0;
-        cur_sneakers[ele] = {};
-      });
-    }
-    // Month, year, state exists
-    else {
-      // Check the brand and increment
-      let cur_state = order["Buyer Region"];
-      if (order["Brand"] == "Yeezy") {
-        cur_yeezy_count[cur_state]++;
-      } else {
-        cur_white_count[cur_state]++;
-      }
+        states.forEach(state => {
+          let brand = "";
+          if (cur_yeezy_count[state] === cur_white_count[state]) {
+            brand = "neutral";
+          } else if (cur_yeezy_count[state] > cur_white_count[state]) {
+            brand = "yeezy";
+          } else {
+            brand = "off white";
+          }
 
-      // Check the sneaker name
-      if (order["Sneaker Name"] in cur_sneakers[cur_state]) {
-        cur_sneakers[cur_state][order["Sneaker Name"]]["count"]++;
-        cur_sneakers[cur_state][order["Sneaker Name"]][
-          "retail_total"
-        ] += parseInt(
-          order["Retail Price"].slice(1, order["Retail Price"].length)
-        );
-        cur_sneakers[cur_state][order["Sneaker Name"]][
-          "sale_total"
-        ] += parseInt(order["Sale Price"].slice(1, order["Sale Price"].length));
-      } else {
-        cur_sneakers[cur_state][order["Sneaker Name"]] = {};
-        cur_sneakers[cur_state][order["Sneaker Name"]]["count"] = 1;
-        cur_sneakers[cur_state][order["Sneaker Name"]][
-          "retail_total"
-        ] = parseInt(
-          order["Retail Price"].slice(1, order["Retail Price"].length)
-        );
-        cur_sneakers[cur_state][order["Sneaker Name"]]["sale_total"] = parseInt(
-          order["Sale Price"].slice(1, order["Sale Price"].length)
-        );
-      }
-    }
-
-    states.forEach(state => {
-      let brand = "";
-      if (cur_yeezy_count[state] === cur_white_count[state]) {
-        brand = "neutral";
-      } else if (cur_yeezy_count[state] > cur_white_count[state]) {
-        brand = "yeezy";
-      } else {
-        brand = "off white";
-      }
-
-      let sneaker = {};
-      let max = 0;
-      for (let key in cur_sneakers[state]) {
-        if (cur_sneakers[state][key]["count"] > max) {
-          max = cur_sneakers[state][key];
-          sneaker = {
-            name: key,
-            average_retail:
-              cur_sneakers[state][key]["retail_total"] /
-              cur_sneakers[state][key]["count"],
-            average_sale_price:
-              cur_sneakers[state][key]["sale_total"] /
-              cur_sneakers[state][key]["count"]
+          let sneaker = {};
+          let max = 0;
+          for (let key in cur_sneakers[state]) {
+            if (cur_sneakers[state][key]["count"] > max) {
+              max = cur_sneakers[state][key];
+              sneaker = {
+                name: key,
+                average_retail:
+                  cur_sneakers[state][key]["retail_total"] /
+                  cur_sneakers[state][key]["count"],
+                average_sale_price:
+                  cur_sneakers[state][key]["sale_total"] /
+                  cur_sneakers[state][key]["count"]
+              };
+            }
+          }
+          classified_data[`${prev_month}-${prev_year}-${state}`] = {
+            yeezy_count: cur_yeezy_count[state],
+            white_count: cur_white_count[state],
+            brand: brand,
+            most_popular_sneaker:
+              brand !== "neutral"
+                ? sneaker
+                : { name: "", average_retail: 0.0, average_sale_price: 0.0 }
           };
-        }
-      }
-      classified_data[`${prev_month}-${prev_year}-${state}`] = {
-        yeezy_count: cur_yeezy_count[state],
-        white_count: cur_white_count[state],
-        brand: brand,
-        most_popular_sneaker:
-          brand !== "neutral"
-            ? sneaker
-            : { name: "", average_retail: 0.0, average_sale_price: 0.0 }
-      };
+        });
+      });
+      console.log("done with classify_data");
+      _callback();
     });
-  }
 }
 
 function update_map(date) {
@@ -13677,4 +13700,4 @@ const test = [
   }
 ];
 
-main();
+classify_data(() => main());
