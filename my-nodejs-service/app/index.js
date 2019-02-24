@@ -349,6 +349,18 @@ slider.oninput = function () {
   output.innerHTML = date;
 }
 
+/**
+ * For Dynamic navbar
+ */
+function responsiveNavBarFunc() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+
 const test = [
   {
     "Order Date": "9/1/2017",

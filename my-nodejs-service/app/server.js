@@ -14,12 +14,20 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/sneakers', (req, res) => {
+  res.sendFile(__dirname + '/sneakers.html');
+});
+
 app.get('/us.json', (req, res) => {
   res.sendFile(__dirname + '/us.json');
 });
 
 app.get('/index.js', (req, res) => {
   res.sendFile(__dirname + "/index.js");
+});
+
+app.get('/sneakers.js', (req, res) => {
+  res.sendFile(__dirname + "/sneakers.js");
 });
 
 app.get('/resources/twomonthsample.js', (req, res) => {
