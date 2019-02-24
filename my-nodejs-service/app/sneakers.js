@@ -12,6 +12,72 @@ function dropdown() {
     document.getElementById("sneakerDropDown").classList.toggle("show");
 }
 
+function drawChart(data) {
+  d3.select("svg").selectAll("*").remove();
+
+  var svg_width = 600, svg_height = 400;
+  var margin = {top: 20, right: 20, bottom: 30, left: 50};
+  var width = svg_width - margin.left - margin.right;
+  var height = svg_height - margin.top - margin.bottom;
+
+  var svg = d3.select('svg')
+    .attr("width", svg_width)
+    .attr("height", svg_height);
+
+  var g = svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var x = d3.scaleTime().rangeRound([0,width]);
+  var y = d3.scaleLinear().rangeRound([height,0]);
+
+  var line = d3.line()
+    .x(function(d) {return x(new Date(d.date))})
+    .y(function(d) {return y(d.average_price)})
+
+  var line2 = d3.line()
+    .x(function(d) {return x(new Date(d.date))})
+    .y(function(d) {return y(d.retail_price)});
+
+  x.domain(d3.extent(data, function(d) {return new Date(d.date)}));
+  y.domain([0, d3.max(data, function(d) {
+	  return Math.max(d.retail_price, d.average_price); })]);
+
+  // g.append("g")
+  //   .attr("transform", "translate(0," + height + ")")
+  //   .call(d3.axisBottom(x))
+  //   .select(".domain")
+  //   .remove();
+
+  g.append("g")
+    .attr("class", "axis-white")
+    .call(d3.axisLeft(y))
+    .append("text")
+    .attr("fill", "white")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", "0.71em")
+    .attr("text-anchor", "end")
+    .text("Price ($)"); 
+
+  g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "lightgreen")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "red")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line2);
+}
+
 function createLineGraph(elmnt) {
     average_prices = [];
 
@@ -52,7 +118,7 @@ function createLineGraph(elmnt) {
             }
         }
     }
-    console.log(average_prices)
+    drawChart(average_prices);
 } 
 
 window.onclick = function(event) {
