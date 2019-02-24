@@ -1,5 +1,19 @@
 body {
   background-color: #4d6167;
+  font-family: "Roboto", sans-serif;
+}
+
+.slidecontainer h2 {
+  margin-left: 15px;
+}
+
+.slide {
+  width: 100%;
+}
+
+.slidecontainer {
+  margin-top: 3vh;
+  width: 100%;
 }
 
 .background {
@@ -10,7 +24,7 @@ body {
 #top-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   margin-top: 5vh;
 }
 
@@ -18,8 +32,7 @@ body {
   /* display: none; */
   background-color: #f9f9f9ed;
   justify-content: center;
-  height: 80vh;
-  /* width: 25vw; */
+  height: 90vh;
   width: 0px;
   right: 1vw;
   top: 2vw;
@@ -33,6 +46,10 @@ body {
   margin: 15px;
 }
 
+#data-info {
+  height: 45vh;
+}
+
 #best-seller {
   margin: 15px;
 }
@@ -40,6 +57,36 @@ body {
 #title {
   margin: 15px;
   text-align: center;
+}
+
+#news-container {
+  overflow-y: auto;
+  margin: auto;
+  margin-top: 10px;
+  height: 30vh;
+  cursor: pointer;
+}
+
+#news-container h2 {
+  margin: 15px;
+}
+
+#news-container h3 {
+  margin-left: 15px;
+}
+
+#news-container h4 {
+  margin: 15px;
+}
+
+#state-information h2 {
+  margin: 15px;
+}
+
+.article-container {
+  border: 1px solid grey;
+  margin: 15px;
+  border-radius: 2%;
 }
 
 .price {
@@ -50,16 +97,11 @@ body {
 .shoe-image {
   display: block;
   margin: auto;
-  width: 100%;
+  width: 80%;
 }
 
 .shoe-image img {
   width: 90%;
-}
-
-.slidecontainer {
-  margin-top: 3vh;
-  width: 100%;
 }
 
 .slider {

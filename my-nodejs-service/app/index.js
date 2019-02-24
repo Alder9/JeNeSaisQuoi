@@ -84,16 +84,20 @@ function add_information(i) {
   top_container.style.justifyContent = "space-evenly";
 
   let state_info = document.getElementById("state-information");
-  state_info.style.width = "25vw";
+  state_info.style.width = "30vw";
+
+  let data_info = document.createElement("div");
+  data_info.id = "data-info";
+  state_info.append(data_info);
 
   // Adding the State name title
   let title = document.createElement("div");
   title.id = "title";
   let title_header = document.createElement("h1");
-  title_header.innerText = states[i];
+  title_header.innerText = `${states[i]} (${month_year[cur_index]})`;
 
   title.appendChild(title_header);
-  state_info.appendChild(title);
+  data_info.appendChild(title);
 
   // Adding the Best Selling Sneakers
   const best_selling_sneaker =
@@ -113,9 +117,9 @@ function add_information(i) {
   best_seller.appendChild(best_seller_title);
   best_seller.appendChild(best_seller_text);
   best_seller.appendChild(img_container);
-  state_info.appendChild(best_seller);
+  data_info.appendChild(best_seller);
 
-  let res = fetch(
+  fetch(
     `http://localhost:8080/search-image?name=${best_selling_sneaker["name"]}`
   )
     .then(res => {
@@ -137,13 +141,62 @@ function add_information(i) {
   ].toFixed(2)}`;
   let sale = document.createElement("div");
   sale.className = "price";
-  sale.innerText = `Average Sale Price: $${best_selling_sneaker[
+  sale.innerText = `stockX Average Sale Price: $${best_selling_sneaker[
     "average_sale_price"
   ].toFixed(2)}`;
 
   state_pricing.appendChild(retail);
   state_pricing.appendChild(sale);
-  state_info.append(state_pricing);
+  data_info.append(state_pricing);
+
+  let news_container = document.createElement("div");
+  news_container.id = "news-container";
+  let news_container_title = document.createElement("h2");
+  news_container_title.innerText = "Recent News: ";
+  state_info.append(news_container_title);
+
+  state_info.append(news_container);
+
+  fetch(
+    `http://localhost:8080/search-news?name=${best_selling_sneaker["name"]}`
+  )
+    .then(res => {
+      return res.json();
+    })
+    .then(res => {
+      res["value"].forEach(ele => {
+        let article_container = document.createElement("div");
+        article_container.className = "article-container";
+        article_container.onclick = e => {
+          window.open(ele["url"], "_blank");
+        };
+
+        let news_title = document.createElement("h2");
+        news_title.innerText = ele["name"];
+
+        let news_date = document.createElement("h4");
+        news_date.innerText = ele["datePublished"].slice(
+          0,
+          ele["datePublished"].indexOf("T")
+        );
+
+        let news_short_description = document.createElement("h3");
+        news_short_description.innerText =
+          ele["description"].slice(
+            0,
+            ele["description"].length >= 50 ? 50 : ele["description"].length
+          ) + "...";
+
+        article_container.append(news_title);
+        article_container.append(news_date);
+        article_container.append(news_short_description);
+
+        news_container.append(article_container);
+      });
+      // best_seller_img.src = res["value"][0]["url"];
+
+      // img_container.appendChild(best_seller_img);
+    });
 }
 
 function clear_information() {
@@ -180,7 +233,6 @@ function classify_data() {
     let cur_month = parseInt(tmp[0]);
     let cur_year = parseInt(tmp[2]);
     let cur_state = order["Buyer Region"];
-    // New month
     if (cur_month !== prev_month || cur_year !== prev_year) {
       states.forEach(state => {
         let brand = "";
@@ -311,6 +363,11 @@ function update_map(date) {
 
     let key = `${date}-${states[i]}`;
     let color = "grey";
+
+    if (!(key in classified_data)) {
+      return "grey";
+    }
+
     if (classified_data[key]["brand"] === "yeezy") {
       color = yeezy_color;
     } else if (classified_data[key]["brand"] === "off white") {
@@ -382,6 +439,64 @@ function main() {
       .attr("id", "state-borders")
       .attr("d", path);
   });
+  var legendRectSize = 18;
+  var legendSpacing = 4;
+  var legend = d3.select("#legend").append("svg");
+  legend
+    .append("rect")
+    .attr("x", 5)
+    .attr("y", legendRectSize)
+    .attr("width", legendRectSize)
+    .attr("height", legendRectSize)
+    .style("fill", yeezy_color)
+    .style("stroke", yeezy_color);
+  legend
+    .append("text")
+    .attr("x", legendRectSize + legendSpacing + 5)
+    .attr("y", legendRectSize + 15)
+    .text("Adidas Yeezy");
+
+  legend
+    .append("rect")
+    .attr("x", 5)
+    .attr("y", 2 * legendRectSize + 10)
+    .attr("width", legendRectSize)
+    .attr("height", legendRectSize)
+    .style("fill", off_white_color)
+    .style("stroke", off_white_color);
+  legend
+    .append("text")
+    .attr("x", legendRectSize + legendSpacing + 5)
+    .attr("y", 2 * legendRectSize + 25)
+    .text("Nike Off White");
+
+  legend
+    .append("rect")
+    .attr("x", 5)
+    .attr("y", 3 * legendRectSize + 20)
+    .attr("width", legendRectSize)
+    .attr("height", legendRectSize)
+    .style("fill", "grey")
+    .style("stroke", "grey");
+  legend
+    .append("text")
+    .attr("x", legendRectSize + legendSpacing + 5)
+    .attr("y", 3 * legendRectSize + 35)
+    .text("Neutral");
+  // legend
+  //   .append("text")
+  //   .attr("x", legendRectSize + legendSpacing)
+  //   .attr("y", legendRectSize - legendSpacing)
+  //   .text(function(d) {
+  //     switch (d) {
+  //       case off_white_color:
+  //         return "Nike Off White";
+  //       case yeezy_color:
+  //         return "Adidas Yeezy";
+  //       default:
+  //         return "Neutral";
+  //     }
+  //   });
 
   function clicked(d) {
     var x, y, k;
@@ -464,6 +579,7 @@ function main() {
 
   var slider = document.getElementById("mapRange");
   var output = document.getElementById("date");
+  output.innerHTML = month_year[cur_index];
   slider.oninput = function() {
     // Color code: off-white - #f9f9f9, adidas - black
     // Start date: Aug. 2017 = 1

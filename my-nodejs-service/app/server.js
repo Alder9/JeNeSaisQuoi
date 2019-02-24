@@ -54,6 +54,19 @@ app.get("/search-image", (req, res) => {
     });
 });
 
+app.get("/search-news", (req, res) => {
+  unirest
+    .get(
+      `https://microsoft-azure-bing-news-search-v1.p.rapidapi.com/search?q=${
+        req.query.name
+      }`
+    )
+    .header("X-RapidAPI-Key", rapid_key)
+    .end(function(result) {
+      res.send(result.body);
+    });
+});
+
 // Listen to the App Engine-specified port, or 8080 otherwise
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
