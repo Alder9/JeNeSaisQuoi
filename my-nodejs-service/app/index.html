@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.background {
+  fill: lightskyblue;
+  pointer-events: all;
+}
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 960px;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; 
+  appearance: none;
+  width: 25px; 
+  height: 25px;
+  background: #4CAF50; 
+  cursor: pointer; 
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; 
+  height: 25px; 
+  background: #4CAF50; 
+  cursor: pointer; 
+}
+
+#states {
+  fill: #aaa;
+}
+
+#states .active {
+  fill: red;
+  fill-opacity: 20%;
+}
+
+#state-borders {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+</style>
+
+<head>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="//d3js.org/topojson.v1.min.js"></script>
+</head>
+
+<body>
+  <div id="map-container"></div>
+  <div class "slidecontainer">
+    <input type="range" min="1" max="18" value="1" class="slider" id="mapRange">
+    <p>Date: <span id="date"></span></p>
+  </div>
+  <script src="index.js"></script>
+</body>
