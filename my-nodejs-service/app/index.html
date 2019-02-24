@@ -1,77 +1,48 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-.background {
-  fill: lightskyblue;
-  pointer-events: all;
-}
-
-.slidecontainer {
-  width: 100%;
-}
-
-.slider {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 960px;
-  height: 25px;
-  background: #d3d3d3;
-  outline: none;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none; 
-  appearance: none;
-  width: 25px; 
-  height: 25px;
-  background: #4CAF50; 
-  cursor: pointer; 
-}
-
-.slider::-moz-range-thumb {
-  width: 25px; 
-  height: 25px; 
-  background: #4CAF50; 
-  cursor: pointer; 
-}
-
-#states {
-  fill: #aaa;
-}
-
-#states .active {
-  fill: red;
-  fill-opacity: 20%;
-}
-
-#state-borders {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 1.5px;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  pointer-events: none;
-}
-
-</style>
+<meta charset="utf-8" />
 
 <head>
+  <link rel="stylesheet" href="css/styles.css" />
   <script src="//d3js.org/d3.v3.min.js"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
 </head>
 
 <body>
-  <div id="map-container"></div>
-  <div class "slidecontainer">
-    <input type="range" min="1" max="18" value="1" class="slider" id="mapRange">
-    <p>Date: <span id="date"></span></p>
+  <div id="top-container">
+    <div>
+      <div id="map-container"></div>
+      <div class="slidecontainer">
+        <input
+          type="range"
+          min="1"
+          max="18"
+          value="1"
+          class="slider"
+          id="mapRange"
+        />
+        <p>Date: <span id="date"></span></p>
+      </div>
+      <script src="index.js"></script>
+    </div>
+    <div id="state-information">
+      <div id="title">
+        <h1>
+          Colorado
+        </h1>
+      </div>
+      <div id="best-seller">
+        <h2>Best Selling Sneakers:</h2>
+        <span>image goes here</span>
+      </div>
+      <div></div>
+      <div id="state-pricing">
+        <div class="price">
+          Retail: $
+        </div>
+        <div class="price">
+          Average Price:
+        </div>
+      </div>
+    </div>
   </div>
-  <script src="index.js"></script>
 </body>
