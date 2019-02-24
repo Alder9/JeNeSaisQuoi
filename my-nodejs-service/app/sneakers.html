@@ -21,16 +21,57 @@
     <div class="dropdown">
         <button onclick="dropdown()" class="dropbtn">Click to Select</button>
         <div id="sneakerDropDown" class="dropdown-content">
+            <input type="text" placeholder="Search..." id="myInput" onkeyup="filterFunction()">
+            <a href="#" title="Adidas-Yeezy-Boost-350-Low-Moonrock" onclick="createLineGraph(this); return false;">Yeezy Boost 350 Moonrock</a>
+            <a href="#" title="Adidas-Yeezy-Boost-350-Low-Oxford-Tan" onclick="createLineGraph(this); return false;">Yeezy Boost 350 Oxford Tan</a>
+            <a href="#" title="Adidas-Yeezy-Boost-350-Low-Pirate-Black-2015" onclick="createLineGraph(this); return false;">Yeezy Boost 350 Pirate Black Low 2015</a>
+            <a href="#" title="Adidas-Yeezy-Boost-350-Low-Pirate-Black-2016" onclick="createLineGraph(this); return false;">Yeezy Boost 350 Pirate Black Low 2016</a>
+            <a href="#" title="Adidas-Yeezy-Boost-350-Low-Turtledove" onclick="createLineGraph(this); return false;">Yeezy Boost 350 Turtledove</a>
             <a href="#" title="Adidas-Yeezy-Boost-350-Low-V2-Beluga" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Beluga</a>
+            <a href="#" title="Adidas-Yeezy-Boost-350-V2-Beluga-2pt0" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Beluga 2.0</a>
+            <a href="#" title="adidas-Yeezy-Boost-350-V2-Butter" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Butter</a>
             <a href="#" title="Adidas-Yeezy-Boost-350-V2-Core-Black-Copper" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Core Black Copper</a>
             <a href="#" title="Adidas-Yeezy-Boost-350-V2-Core-Black-Green" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Core Black Green</a>
             <a href="#" title="Adidas-Yeezy-Boost-350-V2-Core-Black-Red" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Core Black Red</a>
-            <a href="#" title="Adidas-Yeezy-Boost-350-V2-Core-Black-Red-2017" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Core Black Red (2017)</a>
+            <a href="#" title="Adidas-Yeezy-Boost-350-V2-Core-Black-Red-2017" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Core Black Red 2017</a>
             <a href="#" title="Adidas-Yeezy-Boost-350-V2-Core-Black-White" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Core Black White</a>
             <a href="#" title="Adidas-Yeezy-Boost-350-V2-Cream-White" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Cream White</a>
+            <a href="#" title="Adidas-Yeezy-Boost-350-V2-Blue-Tint" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Blue Tint</a>
+            <a href="#" title="Adidas-Yeezy-Boost-350-V2-Semi-Frozen-Yellow" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Semi-Frozen Yellow</a>
+            <a href="#" title="Adidas-Yeezy-Boost-350-V2-Sesame" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Sesame</a>
+            <a href="#" title="adidas-Yeezy-Boost-350-V2-Static" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Static</a>
+            <a href="#" title="adidas-Yeezy-Boost-350-V2-Static-Reflective" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Static Reflective</a>
             <a href="#" title="Adidas-Yeezy-Boost-350-V2-Zebra" onclick="createLineGraph(this); return false;">Yeezy Boost 350 V2 Zebra</a>
-            <a href="#" title="Adidas-Yeezy-Boost-350-Low-Moonrock" onclick="createLineGraph(this); return false;">Yeezy Boost 350 Moonrock</a>
+            <a href="#" title="Air-Jordan-1-Retro-High-Off-White-Chicago" onclick="createLineGraph(this); return false;">Air Jordan 1 High Off White Chicago</a>
+            <a href="#" title="Air-Jordan-1-Retro-High-Off-White-University-Blue" onclick="createLineGraph(this); return false;">Air Jordan 1 High Off White University Blue</a>
+            <a href="#" title="Air-Jordan-1-Retro-High-Off-White-White" onclick="createLineGraph(this); return false;">Air Jordan 1 High Off White White</a>
+            <a href="#" title="Nike-Air-Force-1-Low-Off-White" onclick="createLineGraph(this); return false;">Nike Off White Air Force 1 Low</a>
+            <a href="#" title="Nike-Air-Force-1-Low-Off-White-Black-White" onclick="createLineGraph(this); return false;">Nike Off White Air Force 1 Low Black White</a>
+            <a href="#" title="Nike-Air-Force-1-Low-Off-White-Volt" onclick="createLineGraph(this); return false;">Nike Off White Air Force 1 Volt</a>
+            <a href="#" title="Nike-Air-Force-1-Low-Virgil-Abloh-Off-White-AF100" onclick="createLineGraph(this); return false;">Nike Off White Air Force 1 Low Virgil Abloh AF100</a>
             <a href="#" title="Nike-Air-Max-90-Off-White" onclick="createLineGraph(this); return false;">Nike Off White Air Max 90</a>
+            <a href="#" title="Nike-Air-Max-90-Off-White-Black" onclick="createLineGraph(this); return false;">Nike Off White Air Max 90 Black</a>
+            <a href="#" title="Nike-Air-Max-90-Off-White-Desert-Ore" onclick="createLineGraph(this); return false;">Nike Off White Air Max 90 Desert Ore</a>
+            <a href="#" title="Nike-Air-Max-97-Off-White" onclick="createLineGraph(this); return false;">Nike Off White Air Max 97</a>
+            <a href="#" title="Nike-Air-Max-97-Off-White-Black" onclick="createLineGraph(this); return false;">Nike Off White Air Max 97 Elemental Black</a>
+            <a href="#" title="Nike-Air-Max-97-Off-White-Elemental-Rose-Queen" onclick="createLineGraph(this); return false;">Nike Off White Air Max 97 Rose Queen</a>
+            <a href="#" title="Nike-Air-Max-97-Off-White-Menta" onclick="createLineGraph(this); return false;">Nike Off White Air Max 97 Menta</a>
+            <a href="#" title="Nike-Air-Presto-Off-White" onclick="createLineGraph(this); return false;">Nike Off White Air Presto</a>
+            <a href="#" title="Nike-Air-Presto-Off-White-Black-2018" onclick="createLineGraph(this); return false;">Nike Off White Air Presto Black 2018</a>
+            <a href="#" title="Nike-Air-Presto-Off-White-White-2018" onclick="createLineGraph(this); return false;">Nike Off White Air Presto White 2018</a>
+            <a href="#" title="Nike-Air-VaporMax-Off-White" onclick="createLineGraph(this); return false;">Nike Off White Air VaporMax</a>
+            <a href="#" title="Nike-Air-VaporMax-Off-White-2018" onclick="createLineGraph(this); return false;">Nike Off White Air VaporMax 2018</a>
+            <a href="#" title="Nike-Air-VaporMax-Off-White-Black" onclick="createLineGraph(this); return false;">Nike Off White Air VaporMax Black</a>
+            <a href="#" title="Nike-Blazer-Mid-Off-White" onclick="createLineGraph(this); return false;">Nike Off White Blazer Mid</a>
+            <a href="#" title="Nike-Blazer-Mid-Off-White-All-Hallows-Eve" onclick="createLineGraph(this); return false;">Nike Off White Blazer Mid All Hallows Eve</a>
+            <a href="#" title="Nike-Blazer-Mid-Off-White-Grim-Reaper" onclick="createLineGraph(this); return false;">Nike Off White Blazer Mid Grim Reaper</a>
+            <a href="#" title="Nike-Blazer-Mid-Off-White-Wolf-Grey" onclick="createLineGraph(this); return false;">Nike Off White Blazer Mid Wolf Grey</a>
+            <a href="#" title="Nike-React-Hyperdunk-2017-Flyknit-Off-White" onclick="createLineGraph(this); return false;">Nike Off White React Hyperdunk 2017 Flyknit</a>
+            <a href="#" title="Nike-Zoom-Fly-Off-White" onclick="createLineGraph(this); return false;">Nike Off White Zoom Fly</a>
+            <a href="#" title="Nike-Zoom-Fly-Off-White-Black-Silver" onclick="createLineGraph(this); return false;">Nike Off White Zoom Fly Black Silver</a>
+            <a href="#" title="Nike-Zoom-Fly-Off-White-Pink" onclick="createLineGraph(this); return false;">Nike Off White Zoom Fly Pink</a>
+            <a href="#" title="Nike-Zoom-Fly-Mercurial-Off-White-Black" onclick="createLineGraph(this); return false;">Nike Off White Zoom Fly Mercurial Black</a>
+            <a href="#" title="Nike-Zoom-Fly-Mercurial-Off-White-Total-Orange" onclick="createLineGraph(this); return false;">Nike Off White Zoom Fly Mercurial Total Orange</a>
         </div>
     </div>
 
@@ -42,54 +83,3 @@
 
     <script src="sneakers.js"></script>
 </body>
-
-<!-- Adidas-Yeezy-Boost-350-Low-V2-Beluga
-Adidas-Yeezy-Boost-350-V2-Core-Black-Copper
-Adidas-Yeezy-Boost-350-V2-Core-Black-Green
-Adidas-Yeezy-Boost-350-V2-Core-Black-Red
-Adidas-Yeezy-Boost-350-V2-Core-Black-Red-2017
-Adidas-Yeezy-Boost-350-V2-Core-Black-White
-Adidas-Yeezy-Boost-350-V2-Cream-White
-Adidas-Yeezy-Boost-350-V2-Zebra
-Adidas-Yeezy-Boost-350-Low-Moonrock
-Nike-Air-Max-90-Off-White
-Nike-Air-Presto-Off-White
-Nike-Air-VaporMax-Off-White
-Air-Jordan-1-Retro-High-Off-White-Chicago
-Nike-Blazer-Mid-Off-White
-Adidas-Yeezy-Boost-350-Low-Pirate-Black-2016
-Adidas-Yeezy-Boost-350-Low-Oxford-Tan
-Adidas-Yeezy-Boost-350-Low-Turtledove
-Adidas-Yeezy-Boost-350-Low-Pirate-Black-2015
-Adidas-Yeezy-Boost-350-V2-Semi-Frozen-Yellow
-Nike-Air-Force-1-Low-Off-White
-Nike-Air-Max-97-Off-White
-Nike-Air-Force-1-Low-Virgil-Abloh-Off-White-AF100
-Nike-React-Hyperdunk-2017-Flyknit-Off-White
-Nike-Zoom-Fly-Off-White
-Adidas-Yeezy-Boost-350-V2-Beluga-2pt0
-Adidas-Yeezy-Boost-350-V2-Blue-Tint
-Nike-Air-VaporMax-Off-White-2018
-Air-Jordan-1-Retro-High-Off-White-White
-Nike-Air-VaporMax-Off-White-Black
-Air-Jordan-1-Retro-High-Off-White-University-Blue
-Nike-Air-Presto-Off-White-Black-2018
-Nike-Air-Presto-Off-White-White-2018
-Nike-Zoom-Fly-Mercurial-Off-White-Black
-Nike-Zoom-Fly-Mercurial-Off-White-Total-Orange
-adidas-Yeezy-Boost-350-V2-Butter
-Nike-Air-Max-97-Off-White-Elemental-Rose-Queen
-Nike-Blazer-Mid-Off-White-All-Hallows-Eve
-Nike-Blazer-Mid-Off-White-Grim-Reaper
-Adidas-Yeezy-Boost-350-V2-Sesame
-Nike-Blazer-Mid-Off-White-Wolf-Grey
-Nike-Air-Max-97-Off-White-Menta
-Nike-Air-Max-97-Off-White-Black
-Nike-Zoom-Fly-Off-White-Black-Silver
-Nike-Zoom-Fly-Off-White-Pink
-Nike-Air-Force-1-Low-Off-White-Volt
-Nike-Air-Force-1-Low-Off-White-Black-White
-adidas-Yeezy-Boost-350-V2-Static
-adidas-Yeezy-Boost-350-V2-Static-Reflective
-Nike-Air-Max-90-Off-White-Black
-Nike-Air-Max-90-Off-White-Desert-Ore -->

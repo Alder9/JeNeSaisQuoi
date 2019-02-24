@@ -12,6 +12,22 @@ function dropdown() {
     document.getElementById("sneakerDropDown").classList.toggle("show");
 }
 
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("sneakerDropDown");
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+
 function drawChart(data) {
   d3.select("svg").selectAll("*").remove();
   d3.select("#legend").selectAll("*").remove();
@@ -119,41 +135,89 @@ function createLineGraph(elmnt) {
 
     let sneaker_name = elmnt["title"];
 
-
     let prev_date = "";
+    let url = "http://localhost:8080/json-all";
     var i = -1;
     for (let order of test) {
-        if(order["Sneaker Name"] === sneaker_name) {
-            var date = order["Order Date"];
-            var retail = parseInt(order["Retail Price"].replace('$',''));
-            var price = parseInt(order["Sale Price"].replace(',','').replace('$',''));
-            if(date !== prev_date) {
-                // Create new data object
-                var sum = 0;
-                var sneakers_sold = 0;
-                sum += price;
-                console.log(date);
-                console.log(sum);
-                sneakers_sold += 1;
-                average_prices.push({
-                    date: date,
-                    average_price: sum / sneakers_sold,
-                    retail_price: retail,
-                    total_sold: sneakers_sold
-                });
-                i++;
-                prev_date = date;
-            }
-            else {
-                sum += price;
-                sneakers_sold += 1;
-                console.log("Price: " + price);
-                console.log("Sum" + sum);
-                average_prices[i]["total_sold"] = sneakers_sold;
-                average_prices[i]["average_price"] = sum / sneakers_sold;
-            }
+      if(order["Sneaker Name"] === sneaker_name) {
+        var date = order["Order Date"];
+        var retail = parseInt(order["Retail Price"].replace('$',''));
+        var price = parseInt(order["Sale Price"].replace(',','').replace('$',''));
+        if(date !== prev_date) {
+            // Create new data object
+            var sum = 0;
+            var sneakers_sold = 0;
+            sum += price;
+            console.log(date);
+            console.log(sum);
+            sneakers_sold += 1;
+            average_prices.push({
+                date: date,
+                average_price: sum / sneakers_sold,
+                retail_price: retail,
+                total_sold: sneakers_sold
+            });
+            i++;
+            prev_date = date;
         }
+        else {
+            sum += price;
+            sneakers_sold += 1;
+            console.log("Price: " + price);
+            console.log("Sum" + sum);
+            average_prices[i]["total_sold"] = sneakers_sold;
+            average_prices[i]["average_price"] = sum / sneakers_sold;
+        }
+      }
     }
+    // fetch(url)
+    //   .then(res => {
+    //     if (res == undefined) {
+    //       return {};
+    //     }
+    //     if (res.status == 200) {
+    //       return res.json();
+    //     } else {
+    //       return {};
+    //     }
+    //   })
+    //   .then(orders => {
+    //     orders.forEach(function(order) {
+    //       if(order["Sneaker Name"] === sneaker_name) {
+    //         var date = order["Order Date"];
+    //         var retail = parseInt(order["Retail Price"].replace('$',''));
+    //         var price = parseInt(order["Sale Price"].replace(',','').replace('$',''));
+    //         if(date !== prev_date) {
+    //             // Create new data object
+    //             var sum = 0;
+    //             var sneakers_sold = 0;
+    //             sum += price;
+    //             console.log(date);
+    //             console.log(sum);
+    //             sneakers_sold += 1;
+    //             average_prices.push({
+    //                 date: date,
+    //                 average_price: sum / sneakers_sold,
+    //                 retail_price: retail,
+    //                 total_sold: sneakers_sold
+    //             });
+    //             i++;
+    //             prev_date = date;
+    //         }
+    //         else {
+    //             sum += price;
+    //             sneakers_sold += 1;
+    //             console.log("Price: " + price);
+    //             console.log("Sum" + sum);
+    //             average_prices[i]["total_sold"] = sneakers_sold;
+    //             average_prices[i]["average_price"] = sum / sneakers_sold;
+    //         }
+    //       }
+    //     });
+    //     // _callback();
+    //     // setTimeout()
+    //   });
+    console.log(average_prices);
     drawChart(average_prices);
 } 
 
